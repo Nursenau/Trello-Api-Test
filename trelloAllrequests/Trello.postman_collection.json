@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "7dd5e44d-ad7c-4e68-a422-326dad8d37c6",
+		"name": "Trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44472064",
+		"_collection_link": "https://nursena-2958809.postman.co/workspace/TrelloArayuzCagrilari~6bdfd238-20e8-4906-8569-12e8bcf95564/collection/44472064-7dd5e44d-ad7c-4e68-a422-326dad8d37c6?action=share&source=collection_link&creator=44472064"
+	},
+	"item": [
+		{
+			"name": "Trello Pano olusturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Board basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Trello deger kontrolu\", function(){\r",
+							"\r",
+							"    pm.expect(response.name).is.eql(pm.environment.get(\"panoAdi\"));\r",
+							"    pm.expect(response.closed).to.be.false \r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test(\"prefers deki hideVotes alanı false olmalı\", function() {\r",
+							"\r",
+							"    pm.expect(response.prefs.hideVotes).to.be.false\r",
+							"})\r",
+							"\r",
+							"pm.environment.set(\"panoId\", response.id);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"panoAdi\", \"UdemyTrelloCagrisi \" + parseInt(Math.random()*100000) );"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/?name=TrelloCagrilari&key=e83ea469cfd5f95699367411550e5550&token=ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "TrelloCagrilari"
+						},
+						{
+							"key": "key",
+							"value": "e83ea469cfd5f95699367411550e5550"
+						},
+						{
+							"key": "token",
+							"value": "ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello Liste Olusturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Liste basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"listId\", response.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/lists?name=Test Ediliyor&idBoard={{panoId}}&key=e83ea469cfd5f95699367411550e5550&token=ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Test Ediliyor"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{panoId}}"
+						},
+						{
+							"key": "key",
+							"value": "e83ea469cfd5f95699367411550e5550"
+						},
+						{
+							"key": "token",
+							"value": "ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello Card Olusturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Card basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"cardId\", response.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/cards?idList={{listId}}&key=e83ea469cfd5f95699367411550e5550&token=ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032&name=Guncelleme Deneme",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{listId}}"
+						},
+						{
+							"key": "key",
+							"value": "e83ea469cfd5f95699367411550e5550"
+						},
+						{
+							"key": "token",
+							"value": "ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032"
+						},
+						{
+							"key": "name",
+							"value": "Guncelleme Deneme"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello Kart Güncelleme",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/1/cards/:id?key={{trelloKey}}&token={{trelloToken}}&name=Yeni gucelleme",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						},
+						{
+							"key": "name",
+							"value": "Yeni gucelleme"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{cardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello card silme",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/cards/:id?key=e83ea469cfd5f95699367411550e5550&token=ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"cards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "e83ea469cfd5f95699367411550e5550"
+						},
+						{
+							"key": "token",
+							"value": "ATTA5825142dc5695db4f44009e36bd22b706ed502c4e08339be6f19f77ef13bd16804DBD032"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{cardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "8e3eef85-39fd-47ee-9983-74b5abb09b62",
+		"name": "BenimTrelloCalismam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44472064",
+		"_collection_link": "https://nursena-2958809.postman.co/workspace/TrelloArayuzCagrilari~6bdfd238-20e8-4906-8569-12e8bcf95564/collection/44472064-8e3eef85-39fd-47ee-9983-74b5abb09b62?action=share&source=collection_link&creator=44472064"
+	},
+	"item": [
+		{
+			"name": "Pano olusturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Board basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Trello deger kontrolu\", function(){\r",
+							"\r",
+							"    pm.expect(response.name).is.eql(\"BenimTrelloCalismam\");\r",
+							"    pm.expect(response.closed).to.be.false \r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test(\"prefers deki hideVotes alanı false olmalı\", function() {\r",
+							"\r",
+							"    pm.expect(response.prefs.hideVotes).to.be.false\r",
+							"})\r",
+							"\r",
+							"pm.environment.set(\"panoId\", response.id);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{alistirmaUrl}}/1/boards/?name=BenimTrelloCalismamm&key={{trelloKey}}&token={{trelloToken}}",
+					"host": [
+						"{{alistirmaUrl}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "BenimTrelloCalismamm"
+						},
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste olusturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Liste basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"listId\", response.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{alistirmaUrl}}/1/lists?name=Nursenanın yeni listesi&idBoard={{panoId}}&key={{trelloKey}}&token={{trelloToken}}",
+					"host": [
+						"{{alistirmaUrl}}"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Nursenanın yeni listesi"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{panoId}}"
+						},
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Card olusturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Card basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"cardId\", response.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{alistirmaUrl}}/1/cards?idList={{listId}}&key={{trelloKey}}&token={{trelloToken}}&name=Ornek api calismalari yapiliyor.",
+					"host": [
+						"{{alistirmaUrl}}"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{listId}}"
+						},
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						},
+						{
+							"key": "name",
+							"value": "Ornek api calismalari yapiliyor."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checklist ekleme",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checklist basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{alistirmaUrl}}/1/cards/:id/checklists?key={{trelloKey}}&token={{trelloToken}}&name=basarili",
+					"host": [
+						"{{alistirmaUrl}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":id",
+						"checklists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						},
+						{
+							"key": "name",
+							"value": "basarili"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{cardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Label olusturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Label basariyla olusturuldu\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{alistirmaUrl}}/1/labels?name=High Priority&color=red&idBoard=681df30f57bfe588ec80292e&key={{trelloKey}}&token={{trelloToken}}",
+					"host": [
+						"{{alistirmaUrl}}"
+					],
+					"path": [
+						"1",
+						"labels"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "High Priority"
+						},
+						{
+							"key": "color",
+							"value": "red"
+						},
+						{
+							"key": "idBoard",
+							"value": "681df30f57bfe588ec80292e"
+						},
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
